@@ -2,28 +2,45 @@
 def merge(arrA, arrB):
     # 0(n)
     elements = len(arrA) + len(arrB)
-    merged_arr = []
+    merged_arr = [0] * elements
 
-    index_a = index_b = 0
+    # i is indices of left and j is indices of right
+    i = 0
+    j = 0
+    k = 0
 
-    while len(merged_arr) < elements:
-        if arrA[index_a] <= arrB[index_b]:
+    while i < len(arrA) and j < len(arrB):
+        if arrA[i] < arrB[j]:
             # value on the left list is smaller (or equal so it should be selected)
-            merged_arr.append(arrA[index_a])
-            index_a += 1
+            merged_arr[k] = arrA[i]
+            i += 1
         else:
-            # right value bigger
-            merged_arr.append(arrB[index_b])
-            index_b += 1
+            merged_arr[k] = arrB[j]
+            j += 1
 
-        # shortcut if done with left can copy rest of other list up to merged array
-        if index_b == len(arrB):
-            merged_arr += arrA[index_a:]
-            break
+        k += 1
 
-        elif index_a == len(arrA):
-            merged_arr += arrB[index_b:]
-            break
+    while i < len(arrA):
+        merged_arr[k] = arrA[i]
+        i += 1
+        k += 1
+
+    while j < len(arrB):
+        merged_arr[k] = arrB[j]
+        j += 1
+        k += 1
+
+    # while i < len(arrA):
+    #     merged_arr[k] = arrA[i]
+    #     i += 1
+    #     k += 1
+
+    # while j < len(arrB):
+    #     merged_arr[k] = arrB[j]
+    #     j += 1
+    #     k += 1
+
+    # shortcut if done with left can copy rest of other list up to merged array
 
     return merged_arr
 
@@ -79,7 +96,7 @@ def merge_in_place(arr, start, mid, end):
 
 def merge_sort_in_place(arr, l, r):
     if l < r:
-        mid = l + (r - l) // 2
+        mid = (l + r) // 2
 
         merge_sort_in_place(arr, l, mid)
         merge_sort_in_place(arr, mid + 1, r)
